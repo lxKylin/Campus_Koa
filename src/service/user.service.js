@@ -7,7 +7,14 @@ class UserService {
     // [username, password] 对应 (?, ?)
     const result = await connection.execute(statement, [username, password]);
 
-    return result;
+    return result[0];
+  }
+
+  async getUserByName(username) {
+    const statement = `SELECT * FROM users WHERE username = ?;`;
+    const result = await connection.execute(statement, [username]);
+
+    return result[0];
   }
 }
 
