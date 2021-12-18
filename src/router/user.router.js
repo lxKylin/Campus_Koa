@@ -8,7 +8,8 @@ const {
 
 // 中间件
 const {
-  verifyUser
+  verifyUser,
+  handlePassword
 } = require('../middleware/user.middleware');
 
 // 前缀：/users
@@ -17,7 +18,8 @@ const userRouter = new Router({
 });
 // 注册接口： 创建用户使用post请求
 // verifyUsers -> 拦截中间件 -> 效验
-userRouter.post('/', verifyUser, create);
+// handlePassword -> 拦截中间件 -> 将密码加密存储
+userRouter.post('/', verifyUser, handlePassword, create);
 
 // 具体的处理逻辑抽离到controller
 // userRouter.post('/', (ctx, next) => {
