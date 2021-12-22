@@ -14,7 +14,7 @@ const {
 
 // 前缀：/users
 const userRouter = new Router({
-  prefix: '/users'
+  prefix: '/api/users'
 });
 // 注册接口： 创建用户使用post请求
 // verifyUsers -> 拦截中间件 -> 效验

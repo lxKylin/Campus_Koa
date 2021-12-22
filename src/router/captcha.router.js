@@ -6,6 +6,6 @@ const {
   verifyCaptcha
 } = require('../middleware/captcha.middleware');
 
-codeRouter.get('/code', verifyCaptcha);
+codeRouter.get('/api/code', verifyCaptcha);
 
 module.exports = codeRouter;
