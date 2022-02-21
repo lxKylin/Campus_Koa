@@ -12,7 +12,8 @@ const {
   create, 
   detail, 
   list,
-  update 
+  update,
+  remove
 } = require('../controller/moment.colltroller');
 
 // 发布 增
@@ -25,5 +26,8 @@ momentRouter.get('/:momentId', detail);
 // 修改
 // 用户必须登录  用户必须具备权限
 momentRouter.patch('/:momentId', verifyAuth, verifyPermission, update);
+// 删除
+// 用户必须登录  用户必须具备权限
+momentRouter.delete('/:momentId', verifyAuth, verifyPermission, remove);
 
 module.exports = momentRouter;

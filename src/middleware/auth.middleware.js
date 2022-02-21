@@ -72,6 +72,11 @@ const verifyAuth = async (ctx, next) => {
   }
 }
 
+/**
+ * 1.很多的内容都需要验证权限
+ * 2.接口：业务接口
+ */
+
 const verifyPermission = async (ctx, next) => {
   console.log("验证权限的middleware")
 
