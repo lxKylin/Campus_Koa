@@ -30,6 +30,19 @@ class MomentConstructor {
     const result = await momentService.getMomentList(offset, size);
     ctx.body = result;
   }
+
+  async update(ctx, next) {
+    // 1.获取参数
+    const { momentId } = ctx.params;
+    const { content } = ctx.request.body;
+    const { id } = ctx.user;
+
+    // 2.修改内容
+    const result = await momentService.update(content, momentId);
+
+    // ctx.body = '修改成功~' + momentId + content + id;
+    ctx.body = result;
+  }
 }
 
 module.exports = new MomentConstructor();
