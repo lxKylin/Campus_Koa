@@ -77,16 +77,22 @@ const verifyAuth = async (ctx, next) => {
  * 2.接口：业务接口
  */
 
+// 通用鉴权方式一 必须使用restful风格
+
 const verifyPermission = async (ctx, next) => {
   console.log("验证权限的middleware")
 
   // 1.获取参数
-  const { momentId } = ctx.params;
+  // console.log(ctx.params); // { commentId: '1 }
+  const [resourceKey] = Object.keys(ctx.params);
+  const tableName = resourceKey.replace('Id', '');
+  const resourceId = ctx.params[resourceKey];
+  // const { momentId } = ctx.params;
   const { id } = ctx.user;
 
   // 2.查询是否具备权限
   try {
-    const isPermission = await authService.checkMoment(momentId, id);
+    const isPermission = await authService.checkResource(tableName, resourceId, id);
     if (!isPermission) throw new Error();
 
     await next();
@@ -94,9 +100,49 @@ const verifyPermission = async (ctx, next) => {
     const error = new Error(errorType.UNPERMISSION);
     return ctx.app.emit('error', error, ctx);
   }
-
-  
 }
+
+// 通用鉴权方式二 使用闭包函数，传入tableName
+
+// const verifyPermission = (tableName) => {
+//   return async (ctx, next) => {
+//     console.log("验证权限的middleware")
+  
+//     // 1.获取参数
+//     const { momentId } = ctx.params;
+//     const { id } = ctx.user;
+  
+//     // 2.查询是否具备权限
+//     try {
+//       const isPermission = await authService.checkResource(tableName, momentId, id);
+//       if (!isPermission) throw new Error();
+  
+//       await next();
+//     } catch (err) {
+//       const error = new Error(errorType.UNPERMISSION);
+//       return ctx.app.emit('error', error, ctx);
+//     }
+//   }
+// }
+
+// const verifyPermission = async (ctx, next) => {
+//   console.log("验证权限的middleware")
+
+//   // 1.获取参数
+//   const { momentId } = ctx.params;
+//   const { id } = ctx.user;
+
+//   // 2.查询是否具备权限
+//   try {
+//     const isPermission = await authService.checkMoment(momentId, id);
+//     if (!isPermission) throw new Error();
+
+//     await next();
+//   } catch (err) {
+//     const error = new Error(errorType.UNPERMISSION);
+//     return ctx.app.emit('error', error, ctx);
+//   }
+// }
 
 module.exports = {
   verifyLogin,

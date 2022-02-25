@@ -16,6 +16,12 @@ class UserService {
 
     return result[0];
   }
+
+  async remove(userId) {
+    const statement = `DELETE FROM user WHERE id = ?;`;
+    const [result] = await connection.execute(statement, [userId]);
+    return result;
+  }
 }
 
 module.exports = new UserService();

@@ -19,7 +19,7 @@ const {
 // 发布 增
 momentRouter.post('/', verifyAuth, create);
 // 获取多条 查
-momentRouter.get('/', list);
+momentRouter.get('/list', list);
 // 获取单条
 momentRouter.get('/:momentId', detail);
 
