@@ -8,13 +8,20 @@ const {
   verifyPermission
 } = require('../middleware/auth.middleware');
 
+// 验证是否存在该标签
+const {
+  verifyLabelExists
+} = require('../middleware/label.middleware');
+
 const { 
   create, 
   detail, 
   list,
   update,
-  remove
-} = require('../controller/moment.colltroller');
+  remove,
+  addLabels,
+  fileInfo
+} = require('../controller/moment.controller');
 
 // 发布 增
 momentRouter.post('/', verifyAuth, create);
@@ -29,5 +36,11 @@ momentRouter.patch('/:momentId', verifyAuth, verifyPermission, update);
 // 删除
 // 用户必须登录  用户必须具备权限
 momentRouter.delete('/:momentId', verifyAuth, verifyPermission, remove);
+
+// 给动态添加标签
+momentRouter.post('/:momentId/labels', verifyAuth, verifyPermission, verifyLabelExists, addLabels);
+
+// 动态配图的服务
+momentRouter.get('/image/:filename', fileInfo)
 
 module.exports = momentRouter;

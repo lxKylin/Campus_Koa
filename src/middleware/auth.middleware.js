@@ -81,6 +81,7 @@ const verifyAuth = async (ctx, next) => {
 
 const verifyPermission = async (ctx, next) => {
   console.log("验证权限的middleware")
+  console.log(ctx.user);
 
   // 1.获取参数
   // console.log(ctx.params); // { commentId: '1 }

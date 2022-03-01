@@ -2,14 +2,23 @@
 const Router = require('koa-router');
 
 // 具体的处理逻辑
+// const {
+//   create
+// } = require('../controller/user.controller');
+
 const {
-  create
-} = require('../controller/user.controller');
+  list,
+  create,
+  update,
+  remove
+} = require('../controller/role.controller');
 
 // 中间件
-const {
-  verifyUser,
-} = require('../middleware/user.middleware');
+
+const { 
+  verifyAuth,
+  verifyPermission
+} = require('../middleware/auth.middleware');
 
 // 前缀：/users
 const roleRouter = new Router({
@@ -18,7 +27,11 @@ const roleRouter = new Router({
 // 注册接口： 创建用户使用post请求
 // verifyUsers -> 拦截中间件 -> 效验
 // handlePassword -> 拦截中间件 -> 将密码加密存储
-roleRouter.get('/', verifyUser, create);
+roleRouter.post('/', create);
+
+roleRouter.get('/list', list);
+roleRouter.patch('/:roleId', update);
+roleRouter.delete('/:roleId', remove);
 
 // 具体的处理逻辑抽离到controller
 // userRouter.post('/', (ctx, next) => {
