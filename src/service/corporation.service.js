@@ -4,7 +4,7 @@ class CorporationService {
   async getCorporationList(offset, size) {
     const statement = `
       SELECT 
-        c.id id, c.corporation_name corporationName, c.principal principal, c.adviser adviser, c.corporation_total corporationTotal,  c.createAt createTime, c.updateAt updateTime
+        c.id id, c.corporation_name corporationName, c.principal principal, c.adviser adviser, c.corporation_total corporationTotal,  c.createAt createAt, c.updateAt updateAt
       FROM corporation c
       LIMIT ?, ?;
     `;

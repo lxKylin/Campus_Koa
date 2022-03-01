@@ -46,7 +46,7 @@ class UserService {
     // sql_calc_found_rows
     const statement = `
       SELECT 
-        u.id id, u.name name, u.password password, u.avatar_url avatar_url, u.createAt createTime, u.updateAt updateTime
+        u.id id, u.name name, u.password password, u.avatar_url avatar_url, u.createAt createAt, u.updateAt updateAt
       FROM user u
       LIMIT ?, ?;
     `;

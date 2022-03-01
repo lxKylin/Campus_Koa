@@ -16,7 +16,7 @@ class RoleService {
     // `;
     const statement = `
       SELECT 
-        r.id id, r.role_name roleName, r.user_name userName, r.createAt createTime, r.updateAt updateTime
+        r.id id, r.role_name roleName, r.user_name userName, r.createAt createAt, r.updateAt updateAt
       FROM role r
       LIMIT ?, ?;
     `;

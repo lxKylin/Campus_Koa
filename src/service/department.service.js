@@ -4,7 +4,7 @@ class DeportmentService {
   async getDepartmentList(offset, size) {
     const statement = `
       SELECT 
-        d.id id, d.department_name departmentName, d.principal principal, d.adviser adviser, d.department_total departmentTotal,  d.createAt createTime, d.updateAt updateTime
+        d.id id, d.department_name departmentName, d.principal principal, d.adviser adviser, d.department_total departmentTotal,  d.createAt createAt, d.updateAt updateAt
       FROM department d
       LIMIT ?, ?;
     `;
