@@ -44,7 +44,7 @@ class NewsService {
   }
 
   async remove(newsId) {
-    const statement = `DELETE FROM newsId WHERE id = ?;`;
+    const statement = `DELETE FROM news WHERE id = ?;`;
     const [result] = await connection.execute(statement, [newsId]);
     return result;
   }
