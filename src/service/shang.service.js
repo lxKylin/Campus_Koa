@@ -38,7 +38,7 @@ class ShangService {
   }
 
   async update(majorName, male, female, majorTotal, shangId) {
-    const statement = `UPDATE jixin SET major_name = ?, male = ?, female = ?, major_total = ? WHERE id = ?;`;
+    const statement = `UPDATE shang SET major_name = ?, male = ?, female = ?, major_total = ? WHERE id = ?;`;
     const [result] = await connection.execute(statement, [majorName, male, female, majorTotal, shangId]);
     return result;
   }
