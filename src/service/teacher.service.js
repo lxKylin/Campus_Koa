@@ -32,7 +32,7 @@ class TeacherService {
     // console.log(jian, '66');
 
     // 使用sql语句将user存储到数据库中
-    const statement = `INSERT INTO teacher (title, education, male, female, sum) VALUES (?, ?, ?);`;
+    const statement = `INSERT INTO teacher (title, education, male, female, sum) VALUES (?, ?, ?, ?, ?);`;
     const result = await connection.execute(statement, [title, education, male, female, sum]);
     // console.log(result, '222');
     return result[0];
