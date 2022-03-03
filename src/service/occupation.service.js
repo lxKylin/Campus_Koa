@@ -22,12 +22,12 @@ class OccupationService {
     // return result;
   }
 
-  async create(enrollment) {
+  async create(occ) {
     const {
       occupation,
       trade,
       number
-    } = enrollment;
+    } = occ;
     // console.log(jian, '66');
 
     // 使用sql语句将user存储到数据库中
