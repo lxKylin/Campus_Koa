@@ -4,7 +4,7 @@ class BorrowService {
   async getBorrowList(offset, size) {
     const statement = `
       SELECT 
-      b.id id, b.book book, b.name name, b.status status, b.createAt createAt, b.updateAt updateAt
+      b.id id, b.book book, b.name name, b.status status, b.updateAt updateAt
       FROM borrow b
       LIMIT ?, ?;
     `;
