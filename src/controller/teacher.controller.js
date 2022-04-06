@@ -6,7 +6,8 @@ class TeacherController {
     // 1.获取数据(offset/size)
     const {
       offset,
-      size
+      size,
+      title
     } = ctx.query;
 
     // console.log(offset, size)
@@ -15,7 +16,7 @@ class TeacherController {
     const {
       result,
       count
-    } = await teacherService.getTeacherList(offset, size);
+    } = await teacherService.getTeacherList(offset, size, title);
     // console.log(count, '222')
     ctx.body = {
       code: 200,

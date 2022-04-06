@@ -1,24 +1,29 @@
 const connection = require('../app/database');
 
 class TeacherService {
-  async getTeacherList(offset, size) {
+  async getTeacherList(offset, size, title) {
     const statement = `
       SELECT 
-      t.id id, t.title title, t.education edu, t.male male, t.female female, t.sum sum, t.createAt createAt, t.updateAt updateAt
+      t.id id, t.title title, t.education education, t.male male, t.female female, t.sum sum, t.createAt createAt, t.updateAt updateAt
       FROM teacher t
       LIMIT ?, ?;
     `;
     
     const state = `SELECT COUNT(*) total FROM teacher;`;
-    const [result] = await connection.execute(statement, [offset, size]);
-    // console.log(await connection.execute(statement, [offset, size]), '345')
-    const [count] = await connection.execute(state);
-    // console.log(await connection.execute(state), '999')
-    return {
-      result,
-      count
-    };
-    // return result;
+
+    const state2 = "SELECT * FROM teacher WHERE title LIKE ?"
+
+    if (!title) {
+      const [result] = await connection.execute(statement, [offset, size]);
+      const [count] = await connection.execute(state);
+      console.log(result, '3333')
+      return { result, count };
+    } else {
+      const [result] = await connection.execute(state2, [title])
+      const [count] = await connection.execute(state);
+      console.log(result, '3333')
+      return { result, count };
+    }
   }
 
   async create(teacher) {
