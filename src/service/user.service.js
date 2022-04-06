@@ -29,7 +29,7 @@ class UserService {
     return result;
   }
 
-  async getUserList(offset, size) {
+  async getUserList(offset, size, id) {
     // const statement = `
     //     SELECT 
     //       m.id id, m.content content, m.createAt createTime, m.updateAt updateTime,
@@ -51,9 +51,19 @@ class UserService {
       LIMIT ?, ?;
     `;
     const state = `SELECT COUNT(*) total FROM user`;
-    const [result] = await connection.execute(statement, [offset, size]);
-    const [count] = await connection.execute(state);
-    return { result, count };
+
+    const state2 = "SELECT * FROM user WHERE id LIKE ?"
+
+    if (!id) {
+      const [result] = await connection.execute(statement, [offset, size]);
+      const [count] = await connection.execute(state);
+      return { result, count };
+    } else {
+      const [result] = await connection.execute(state2, [id])
+      const [count] = await connection.execute(state);
+      console.log(result, '3333')
+      return { result, count };
+    }
   }
 
   async getUserById(id) {
