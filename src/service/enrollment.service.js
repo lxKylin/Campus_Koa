@@ -1,7 +1,7 @@
 const connection = require('../app/database');
 
 class EnrollmentService {
-  async getEnrollmentList(offset, size) {
+  async getEnrollmentList(offset, size, id, province) {
     const statement = `
       SELECT 
       e.id id, e.province province, e.physics physics, e.history history, e.number number
@@ -10,16 +10,20 @@ class EnrollmentService {
     `;
 
     const state = `SELECT COUNT(*) total FROM enrollment;`;
-    const [result] = await connection.execute(statement, [offset, size]);
 
-    // console.log(await connection.execute(statement, [offset, size]), '345')
-    const [count] = await connection.execute(state);
-    // console.log(await connection.execute(state), '999')
-    return {
-      result,
-      count
-    };
-    // return result;
+    const state2 = `SELECT * FROM enrollment WHERE id LIKE ? OR province LIKE ?`
+
+    if (!id && !province) {
+      const [result] = await connection.execute(statement, [offset, size]);
+      const [count] = await connection.execute(state);
+      // console.log(result, '3333')
+      return { result, count };
+    } else {
+      const [result] = await connection.execute(state2, [id, province])
+      const [count] = await connection.execute(state);
+      // console.log(result, '3333')
+      return { result, count };
+    }
   }
 
   async create(enrollment) {

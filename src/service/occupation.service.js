@@ -11,7 +11,7 @@ class OccupationService {
 
     const state = `SELECT COUNT(*) total FROM occupation_trade;`;
 
-    const state2 = "SELECT * FROM occupation_trade WHERE occupation LIKE ? OR trade LIKE ?"
+    const state2 = `SELECT * FROM occupation_trade WHERE occupation LIKE ? OR trade LIKE ?`
 
     if (!occupation && !trade) {
       const [result] = await connection.execute(statement, [offset, size]);

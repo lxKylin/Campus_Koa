@@ -23,7 +23,7 @@ class RoleService {
     // const state = `SELECT FOUND_ROWS() as total FROM role;`;
     const state = `SELECT COUNT(*) total FROM role;`;
 
-    const state2 = "SELECT * FROM role WHERE roleName LIKE ? OR userName LIKE ?;"
+    const state2 = `SELECT * FROM role WHERE roleName LIKE ? OR userName LIKE ?;`;
 
     if (!roleName && !userName) {
       const [result] = await connection.execute(statement, [offset, size]);

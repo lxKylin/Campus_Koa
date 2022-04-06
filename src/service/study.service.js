@@ -1,7 +1,7 @@
 const connection = require('../app/database');
 
 class StudyService {
-  async getStudyList(offset, size) {
+  async getStudyList(offset, size, year) {
     const statement = `
       SELECT 
       study.id id, study.year year, study.number number, study.createAt createAt, study.updateAt updateAt
@@ -10,16 +10,20 @@ class StudyService {
     `;
 
     const state = `SELECT COUNT(*) total FROM study;`;
-    const [result] = await connection.execute(statement, [offset, size]);
 
-    // console.log(await connection.execute(statement, [offset, size]), '345')
-    const [count] = await connection.execute(state);
-    // console.log(await connection.execute(state), '999')
-    return {
-      result,
-      count
-    };
-    // return result;
+    const state2 = `SELECT * FROM study WHERE year LIKE ?;`;
+
+    if (!year) {
+      const [result] = await connection.execute(statement, [offset, size]);
+      const [count] = await connection.execute(state);
+      // console.log(result, '3333')
+      return { result, count };
+    } else {
+      const [result] = await connection.execute(state2, [year])
+      const [count] = await connection.execute(state);
+      // console.log(result, '3333')
+      return { result, count };
+    }
   }
 
   async create(study) {

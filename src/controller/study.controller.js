@@ -6,16 +6,17 @@ class StudyController {
     // 1.获取数据(offset/size)
     const {
       offset,
-      size
+      size,
+      year
     } = ctx.query;
 
-    // console.log(offset, size)
+    // console.log(ctx.query)
 
     // 2.查询列表
     const {
       result,
       count
-    } = await studyService.getStudyList(offset, size);
+    } = await studyService.getStudyList(offset, size, year);
     // console.log(count, '222')
     ctx.body = {
       code: 200,
