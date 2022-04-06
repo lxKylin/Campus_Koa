@@ -6,16 +6,18 @@ class BookController {
     // 1.获取数据(offset/size)
     const {
       offset,
-      size
+      size,
+      book,
+      classify
     } = ctx.query;
 
-    // console.log(offset, size)
+    // console.log(ctx.query)
 
     // 2.查询列表
     const {
       result,
       count
-    } = await bookService.getBookList(offset, size);
+    } = await bookService.getBookList(offset, size, book, classify);
     // console.log(count, '222')
     ctx.body = {
       code: 200,

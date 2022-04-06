@@ -1,7 +1,7 @@
 const connection = require('../app/database');
 
 class BookService {
-  async getBookList(offset, size) {
+  async getBookList(offset, size, book, classify) {
     const statement = `
       SELECT 
       bb.id id, bb.book book, bb.classify classify, bb.number number, bb.createAt createAt, bb.updateAt updateAt
@@ -10,16 +10,20 @@ class BookService {
     `;
 
     const state = `SELECT COUNT(*) total FROM book_borrow;`;
-    const [result] = await connection.execute(statement, [offset, size]);
 
-    // console.log(await connection.execute(statement, [offset, size]), '345')
-    const [count] = await connection.execute(state);
-    // console.log(await connection.execute(state), '999')
-    return {
-      result,
-      count
-    };
-    // return result;
+    const state2 = "SELECT * FROM book_borrow WHERE book LIKE ? OR classify LIKE ?"
+
+    if (!book && !classify) {
+      const [result] = await connection.execute(statement, [offset, size]);
+      const [count] = await connection.execute(state);
+      // console.log(result, '3333')
+      return { result, count };
+    } else {
+      const [result] = await connection.execute(state2, [book, classify])
+      const [count] = await connection.execute(state);
+      // console.log(result, '3333')
+      return { result, count };
+    }
   }
 
   async create(book_borrow) {
