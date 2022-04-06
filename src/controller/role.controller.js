@@ -4,10 +4,20 @@ class RoleController {
 
   async list(ctx, next) {
     // 1.获取数据(offset/size)
-    const { offset, size } = ctx.query;
+    const {
+      offset,
+      size,
+      roleName,
+      userName
+    } = ctx.query;
+
+    console.log(ctx.query);
 
     // 2.查询列表
-    const { result, count } = await roleService.getRoleList(offset, size);
+    const {
+      result,
+      count
+    } = await roleService.getRoleList(offset, size, roleName, userName);
     // console.log(count, '222')
     ctx.body = {
       code: 200,
@@ -33,8 +43,13 @@ class RoleController {
   }
 
   async update(ctx, next) {
-    const { roleId } = ctx.params;
-    const { roleName, userName } = ctx.request.body;
+    const {
+      roleId
+    } = ctx.params;
+    const {
+      roleName,
+      userName
+    } = ctx.request.body;
     // console.log(roleId, roleName, userName);
 
     const result = await roleService.update(roleName, userName, roleId);
@@ -43,7 +58,9 @@ class RoleController {
 
   async remove(ctx, next) {
     // 1.获取momentId
-    const { roleId } = ctx.params;
+    const {
+      roleId
+    } = ctx.params;
 
     // 2.删除内容
     const result = await roleService.remove(roleId);

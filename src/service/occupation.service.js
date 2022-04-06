@@ -1,7 +1,7 @@
 const connection = require('../app/database');
 
 class OccupationService {
-  async getOccupationList(offset, size) {
+  async getOccupationList(offset, size, occupation, trade) {
     const statement = `
       SELECT 
       ot.id id, ot.occupation occupation, ot.trade trade, ot.number number
@@ -10,16 +10,20 @@ class OccupationService {
     `;
 
     const state = `SELECT COUNT(*) total FROM occupation_trade;`;
-    const [result] = await connection.execute(statement, [offset, size]);
 
-    // console.log(await connection.execute(statement, [offset, size]), '345')
-    const [count] = await connection.execute(state);
-    // console.log(await connection.execute(state), '999')
-    return {
-      result,
-      count
-    };
-    // return result;
+    const state2 = "SELECT * FROM occupation_trade WHERE occupation LIKE ? OR trade LIKE ?"
+
+    if (!occupation && !trade) {
+      const [result] = await connection.execute(statement, [offset, size]);
+      const [count] = await connection.execute(state);
+      // console.log(result, '3333')
+      return { result, count };
+    } else {
+      const [result] = await connection.execute(state2, [occupation, trade])
+      const [count] = await connection.execute(state);
+      // console.log(result, '3333')
+      return { result, count };
+    }
   }
 
   async create(occ) {

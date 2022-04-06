@@ -1,7 +1,7 @@
 const connection = require('../app/database');
 
 class RoleService {
-  async getRoleList(offset, size) {
+  async getRoleList(offset, size, roleName, userName) {
     // const statement = `
     //     SELECT 
     //       m.id id, m.content content, m.createAt createTime, m.updateAt updateTime,
@@ -21,13 +21,21 @@ class RoleService {
       LIMIT ?, ?;
     `;
     // const state = `SELECT FOUND_ROWS() as total FROM role;`;
-    const state = `SELECT COUNT(*) total FROM role`;
-    const [result] = await connection.execute(statement, [offset, size]);
-    // console.log(await connection.execute(statement, [offset, size]), '345')
-    const [count] = await connection.execute(state);
-    // console.log(await connection.execute(state), '999')
-    return { result, count };
-    // return result;
+    const state = `SELECT COUNT(*) total FROM role;`;
+
+    const state2 = "SELECT * FROM role WHERE roleName LIKE ? OR userName LIKE ?;"
+
+    if (!roleName && !userName) {
+      const [result] = await connection.execute(statement, [offset, size]);
+      const [count] = await connection.execute(state);
+      // console.log(result, '3333')
+      return { result, count };
+    } else {
+      const [result] = await connection.execute(state2, [roleName, userName])
+      const [count] = await connection.execute(state);
+      // console.log(result, '3333')
+      return { result, count };
+    }
   }
 
   async create(role) {

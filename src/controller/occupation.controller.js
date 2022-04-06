@@ -6,8 +6,11 @@ class OccupationController {
     // 1.获取数据(offset/size)
     const {
       offset,
-      size
+      size,
+      occupation, 
+      trade
     } = ctx.query;
+    // console.log(ctx.query);
 
     // console.log(offset, size)
 
@@ -15,7 +18,7 @@ class OccupationController {
     const {
       result,
       count
-    } = await occupationService.getOccupationList(offset, size);
+    } = await occupationService.getOccupationList(offset, size, occupation, trade);
     // console.log(count, '222')
     ctx.body = {
       code: 200,
