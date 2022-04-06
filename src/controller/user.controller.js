@@ -42,11 +42,11 @@ class UserController {
 
   async list(ctx, next) {
     // 1.获取数据(offset/size)
-    const { offset, size, id } = ctx.query;
+    const { offset, size, name } = ctx.query;
     // console.log(ctx.query, '11111')
 
     // 2.查询列表
-    const { result, count} = await userService.getUserList(offset, size, id);
+    const { result, count} = await userService.getUserList(offset, size, name);
     ctx.body = {
       code: 200,
       data: result,
