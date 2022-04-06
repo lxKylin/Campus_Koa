@@ -1,7 +1,7 @@
 const connection = require('../app/database');
 
 class BorrowService {
-  async getBorrowList(offset, size) {
+  async getBorrowList(offset, size, book, name, status) {
     const statement = `
       SELECT 
       b.id id, b.book book, b.name name, b.status status, b.updateAt updateAt
@@ -10,16 +10,20 @@ class BorrowService {
     `;
 
     const state = `SELECT COUNT(*) total FROM borrow;`;
-    const [result] = await connection.execute(statement, [offset, size]);
 
-    // console.log(await connection.execute(statement, [offset, size]), '345')
-    const [count] = await connection.execute(state);
-    // console.log(await connection.execute(state), '999')
-    return {
-      result,
-      count
-    };
-    // return result;
+    const state2 = `SELECT * FROM borrow WHERE book LIKE ? OR name LIKE ? OR status LIKE ?;`;
+
+    if (!book && !name && !status) {
+      const [result] = await connection.execute(statement, [offset, size]);
+      const [count] = await connection.execute(state);
+      // console.log(result, '3333')
+      return { result, count };
+    } else {
+      const [result] = await connection.execute(state2, [book, name, status])
+      const [count] = await connection.execute(state);
+      // console.log(result, '3333')
+      return { result, count };
+    }
   }
 
   async create(borrow) {

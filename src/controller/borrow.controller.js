@@ -6,16 +6,19 @@ class BorrowController {
     // 1.获取数据(offset/size)
     const {
       offset,
-      size
+      size,
+      book,
+      name,
+      status
     } = ctx.query;
 
-    // console.log(offset, size)
+    // console.log(ctx.query)
 
     // 2.查询列表
     const {
       result,
       count
-    } = await borrowService.getBorrowList(offset, size);
+    } = await borrowService.getBorrowList(offset, size, book, name, status);
     // console.log(count, '222')
     ctx.body = {
       code: 200,
