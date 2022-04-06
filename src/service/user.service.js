@@ -61,7 +61,7 @@ class UserService {
     } else {
       const [result] = await connection.execute(state2, [name])
       const [count] = await connection.execute(state);
-      console.log(result, '3333')
+      // console.log(result, '3333')
       return { result, count };
     }
   }
