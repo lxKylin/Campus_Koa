@@ -10,7 +10,6 @@ class AuthController {
       expiresIn: 60 * 60 * 24, // 24 hours
       algorithm: 'RS256', // 签名算法
     });
-
     // const { name } = ctx.request.body;
     // ctx.body = `Hi~${name}，登录成功！`;
     ctx.body = {
