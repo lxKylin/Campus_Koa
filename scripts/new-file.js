@@ -43,23 +43,60 @@ getFileName().then(fileName => {
   const exists = fs.existsSync(controllerFile) && fs.existsSync(routerFile) && fs.existsSync(serviceFile); 
 
   // 拿到模版代码
-  const controllerCode = fs.readFileSync(path.resolve(__dirname, "./controller-template/controller.ejs"));
+  // 方式一
+  // const controllerCode = fs.readFileSync(path.resolve(__dirname, "./controller-template/controller.ejs"));
 
-  const routerCode = fs.readFileSync(path.resolve(__dirname, "./router-template/router.ejs"));
+  // const routerCode = fs.readFileSync(path.resolve(__dirname, "./router-template/router.ejs"));
 
-  const serviceCode = fs.readFileSync(path.resolve(__dirname, "./service-template/service.ejs"));
+  // const serviceCode = fs.readFileSync(path.resolve(__dirname, "./service-template/service.ejs"));
+
+  // 方式二
+  const controllerTemplate = path.resolve(__dirname, "./controller-template/controller.ejs");
+
+  const routerTemplate = path.resolve(__dirname, "./router-template/router.ejs");
+
+  const serviceTemplate = path.resolve(__dirname, "./service-template/service.ejs");
 
   if (exists) {
     console.log(`${chalk.red(`文件 ${chalk.bold(fileName)} 代码或文档已存在，请勿重复添加！`)}`);
     return;
   } else {
-    let controllerResult = ejs.render(controllerCode.toString(), {fileName: pascalFileName});
-    let routerResult = ejs.render(routerCode.toString(), {fileName: fileName});
-    let serviceResult = ejs.render(serviceCode.toString(), {fileName: pascalFileName});
+    /**
+     * 方式一
+     * ejs.render(str, data, options);
+     *  => 输出渲染后的 HTML 字符串
+     */
+    // let controllerResult = ejs.render(controllerCode.toString(), {fileName: pascalFileName});
+    // let routerResult = ejs.render(routerCode.toString(), {fileName: fileName});
+    // let serviceResult = ejs.render(serviceCode.toString(), {fileName: pascalFileName});
 
-    fs.writeFileSync(controllerFile, controllerResult)
-    fs.writeFileSync(routerFile, routerResult)
-    fs.writeFileSync(serviceFile, serviceResult)
+    // fs.writeFileSync(controllerFile, controllerResult)
+    // fs.writeFileSync(routerFile, routerResult)
+    // fs.writeFileSync(serviceFile, serviceResult)
+
+    /**
+     * 方式二
+     * ejs.renderFile(filename, data, options, function(err, str){
+     *   // str => 输出渲染后的 HTML 字符串
+     * });
+     */
+     ejs.renderFile(controllerTemplate, {
+      fileName: pascalFileName
+    }, null, function (_, str) {
+      fs.writeFileSync(controllerFile, str);
+    });
+
+     ejs.renderFile(routerTemplate, {
+      fileName: fileName
+    }, null, function (_, str) {
+      fs.writeFileSync(routerFile, str);
+    });
+
+     ejs.renderFile(serviceTemplate, {
+      fileName: pascalFileName
+    }, null, function (_, str) {
+      fs.writeFileSync(serviceFile, str);
+    });
 
   }
 })
