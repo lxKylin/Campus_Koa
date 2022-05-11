@@ -1,9 +1,9 @@
 const chalk = require('chalk'); // 终端样式库
-const inquirer = require('inquirer'); // 命令行用户交互
+const inquirer = require('inquirer'); // 命令行用户交互库
 const fs = require('fs');
 const path = require('path');
-const ejs = require('ejs');
-const changeCase = require('change-case'); // 字符串格式切换
+const ejs = require('ejs'); // JavaScript模版引擎库
+const changeCase = require('change-case'); // 字符串格式切换库
 
 const fileNameReg = /^[a-z]*$/;
 async function getFileName() {
@@ -32,8 +32,6 @@ async function getFileName() {
 getFileName().then(fileName => {
   const pascalFileName = changeCase.pascalCase(fileName); // 开头字母转大写
 
-  console.log(pascalFileName);
-
   // 在src/controller目录下创建一个子目录，用于存放file的核心代码
   const controllerFile = path.resolve(__dirname, `../src/controller/${fileName}.controller.js`);
   // 在src/router目录下创建一个子目录，用于存放file的核心代码
@@ -55,12 +53,13 @@ getFileName().then(fileName => {
     console.log(`${chalk.red(`文件 ${chalk.bold(fileName)} 代码或文档已存在，请勿重复添加！`)}`);
     return;
   } else {
-    let controllerResult = ejs.render(controllerCode.toString(), {fileName: fileName});
+    let controllerResult = ejs.render(controllerCode.toString(), {fileName: pascalFileName});
     let routerResult = ejs.render(routerCode.toString(), {fileName: fileName});
-    let serviceResult = ejs.render(serviceCode.toString(), {fileName: fileName});
+    let serviceResult = ejs.render(serviceCode.toString(), {fileName: pascalFileName});
 
     fs.writeFileSync(controllerFile, controllerResult)
     fs.writeFileSync(routerFile, routerResult)
     fs.writeFileSync(serviceFile, serviceResult)
+
   }
 })
