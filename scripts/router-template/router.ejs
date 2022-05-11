@@ -1,0 +1,14 @@
+const Router = require('koa-router');
+
+// 具体的处理逻辑
+const {
+
+} = require('../controller/<%- fileName %>.controller');
+
+const <%- fileName %>Router = new Router({
+  prefix: '/api/<%- fileName %>'
+});
+
+<%- fileName %>Router.post('/', );
+
+module.exports = <%- fileName %>Router;
